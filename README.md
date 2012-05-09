@@ -1,11 +1,5 @@
 googletest-patches
 ==================
-
-Patches containing new functionality for Google&#39;s unit test framework.
-
-
-google-protocol-buffers-patches
-===============================
  
 This repository contains patches for Google&#39;s unit test framework. For more information on Google Test unit test framework, see http://code.google.com/p/googletest/.
 
