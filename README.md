@@ -14,6 +14,6 @@ To use any of the patches, simply apply them on top of a plain Google Test insta
 gtest-1.6.0-virtual-method-crash-fix.diff
 -------------------------------------
 
-This patch fixes a crash in GoogleTest internal unit tests that occur due to a bug in code generation by the optimizing GCC compiler.
+This patch fixes a crash in GoogleTest internal unit tests that occur due to a bug in code generation by the optimizing GCC compiler. Note: this patch is intended only for release 1.6.0 of GoogleTest.
 
 
