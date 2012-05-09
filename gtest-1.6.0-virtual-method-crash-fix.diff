@@ -1,0 +1,39 @@
+diff -ruN gtest-1.6.0/include/gtest/internal/gtest-port.h gtest-1.6.0-virtual-method-crash-fix/include/gtest/internal/gtest-port.h
+--- gtest-1.6.0/include/gtest/internal/gtest-port.h	2012-05-04 15:38:21.646491501 +0200
++++ gtest-1.6.0-virtual-method-crash-fix/include/gtest/internal/gtest-port.h	2012-05-04 15:24:56.868494446 +0200
+@@ -632,6 +632,17 @@
+ # define GTEST_MUST_USE_RESULT_
+ #endif  // __GNUC__ && (GTEST_GCC_VER_ >= 30400) && !COMPILER_ICC
+ 
++// Prevent compiler from optimizing a given function.
++// Fixes a bug in GCC that causes a crash in unit tests when
++// a pure virtual base class method is called instead of the derived
++// class version.
++//
++#if defined(__GNUC__) && (GTEST_GCC_VER_ >= 40400) && !defined(COMPILER_ICC)
++# define GTEST_NO_OPTIMIZATIONS_ __attribute__((optimize(0)))
++#else
++# define GTEST_NO_OPTIMIZATIONS_
++#endif  // __GNUC__ && (GTEST_GCC_VER_ >= 40400) && !COMPILER_ICC
++
+ // Determine whether the compiler supports Microsoft's Structured Exception
+ // Handling.  This is supported by several Windows compilers but generally
+ // does not exist on any other system.
+@@ -1112,7 +1123,7 @@
+ class ThreadWithParamBase {
+  public:
+   virtual ~ThreadWithParamBase() {}
+-  virtual void Run() = 0;
++  GTEST_NO_OPTIMIZATIONS_ virtual void Run() = 0;
+ };
+ 
+ // pthread_create() accepts a pointer to a function type with the C linkage.
+@@ -1164,7 +1175,7 @@
+     }
+   }
+ 
+-  virtual void Run() {
++  GTEST_NO_OPTIMIZATIONS_ virtual void Run() {
+     if (thread_can_start_ != NULL)
+       thread_can_start_->WaitForNotification();
+     func_(param_);
